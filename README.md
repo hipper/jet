@@ -5,7 +5,10 @@ Simple app to automate Mac configuration/app installation via Ansible.
 It installs and configures most of the software I use. I still have some manual installation steps though.
 
 # Installation
-...
+
+```
+$ curl --progress-bar https://raw.githubusercontent.com/hipper/jet/master/bin/jet | bash -s init
+```
 
 # Usage
 ```
