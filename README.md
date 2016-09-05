@@ -1,6 +1,6 @@
-# <img src="https://cdn.rawgit.com/hipper/jet/master/logo.png" alt="Jet for osx" />
-
 # Jet
+<img src="https://cdn.rawgit.com/hipper/jet/master/logo.png" alt="Jet for osx" style="max-width: 300px" />
+
 Simple app to automate Mac configuration/app installation via Ansible.
 It installs and configures most of the software I use. I still have some manual installation steps though.
 
