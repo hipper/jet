@@ -1,0 +1,8 @@
+---
+sublimetext_name: "Sublime Text 2"
+sublimetext_dmg: "https://download.sublimetext.com/Sublime%20Text%202.0.2.dmg"
+sublimetext_mount_dir: "/Volumes/Sublime Text 2"
+
+sublimetext_dir: "{{ home }}/Library/Application Support/Sublime Text 2"
+sublimetext_settings_dir: "{{ sublimetext_dir }}/Packages/User"
+sublimetext_theme_dir: "{{ sublimetext_dir }}/Packages/Color Scheme - Default"

@@ -1,0 +1,41 @@
+---
+# First, make sure that the vault pass is there
+- stat:
+    path: "{{ home }}/.jet/ansible/.vault_pass"
+  register: vault_pass
+
+- fail: msg="Whoops! {{ home }}/.jet/ansible/.vault_pass is empty"
+  when: vault_pass.stat.size == 0
+
+- name: Homebrew
+  include: homebrew/main.yml
+
+- name: NPM
+  include: npm/main.yml
+
+- name: Dotfiles
+  include: dotfiles/main.yml
+
+- name: Fonts
+  include: font/main.yml
+
+- name: Terminal
+  include: terminal/main.yml
+
+- name: Sublime Text 2
+  include: sublime-text2/main.yml
+
+- name: Boom
+  include: boom/main.yml
+
+- name: Dash
+  include: dash/main.yml
+
+- name: ForkLift
+  include: forklift/main.yml
+
+- name: Chrome
+  include: chrome/main.yml
+
+- name: Tower
+  include: tower/main.yml

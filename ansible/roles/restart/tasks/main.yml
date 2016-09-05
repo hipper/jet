@@ -1,0 +1,8 @@
+---
+- name: restart services
+  command: "killall {{ item }}"
+  with_items:
+    - Finder
+    - Dock
+    - SystemUIServer
+    - cfprefsd

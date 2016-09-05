@@ -1,0 +1,62 @@
+---
+# Credit: https://github.com/jdauphant/ansible-role-sublimetext/blob/master/tasks/MacOSX.yml
+- name: Include vars
+  include_vars: "{{ item }}"
+  with_items:
+    - sublime-text2/vars/main.yml
+    - sublime-text2/vars/license.yml
+
+- name: Check if app exists
+  stat:
+    path: "/Applications/{{ sublimetext_name }}.app"
+  register: sublime_text
+
+- name: Download sublimetext's .dmg file
+  get_url:
+    url: "{{ sublimetext_dmg }}"
+    dest: /tmp/sublimetext.dmg
+  when: sublime_text.stat.exists == false
+
+- name: Mount sublimetext's .dmg file
+  command: hdiutil attach /tmp/sublimetext.dmg chdir=/tmp
+  when: sublime_text.stat.exists == false
+
+- name: Copy sublimetext app to Applications directory
+  copy: 
+    src: "{{ sublimetext_mount_dir }}/Sublime Text 2.app" 
+    dest: /Applications/tmp
+    mode: "u=rwx,g=rx,o=rx"
+  when: sublime_text.stat.exists == false
+
+- name: Unmount sublimetext's .dmg file
+  command: hdiutil detach "{{ sublimetext_mount_dir }} -force"
+  when: sublime_text.stat.exists == false
+
+- name: Copy license file
+  copy:
+    content: "{{ sublime_license }}"
+    dest: "{{ sublimetext_dir }}/Settings/License.sublime_license"
+  when: sublime_text.stat.exists == false
+
+- name: Copy config files
+  copy:
+    src: "sublime-text2/files/{{ item }}"
+    dest: "{{ sublimetext_settings_dir }}/{{ item }}"
+  with_items:
+   - Preferences.sublime-settings
+   - phpcs.sublime-settings
+   - Package Control.sublime-settings
+   - CSS.sublime-settings
+  when: sublime_text.stat.exists == false
+
+- name: Copy theme files
+  copy:
+    src: "sublime-text2/files/color/Hippers.tmTheme"
+    dest: "{{ sublimetext_theme_dir }}/Hippers.tmTheme"
+  when: sublime_text.stat.exists == false
+
+- name: Clean up
+  file:
+    path: /tmp/sublimetext.dmg
+    state: absent
+  when: sublime_text.stat.exists == false

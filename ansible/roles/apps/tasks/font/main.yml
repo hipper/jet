@@ -1,0 +1,7 @@
+---
+- name: Install Fonts
+  copy:
+    src: "{{ item }}"
+    dest: "{{ home }}/Library/Fonts/"
+  with_fileglob:
+    - "{{ home }}/.jet/dotfiles/fonts/*"

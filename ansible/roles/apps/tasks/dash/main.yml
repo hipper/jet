@@ -1,0 +1,11 @@
+---
+- name: Include licence
+  include_vars: dash/vars/license.yml
+
+- name: save licence file
+  copy:
+    content: "{{ dash_license }}"
+    dest: /tmp/license.dash-license
+
+- name: open licence file
+  shell: "open -a 'Dash' '/tmp/license.dash-license'"

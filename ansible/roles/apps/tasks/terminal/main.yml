@@ -1,0 +1,15 @@
+---
+- name: Include vars
+  include_vars: "{{ item }}"
+  with_items:
+    - terminal/vars/main.yml
+
+#/usr/libexec/PlistBuddy -c 'Print :"Window Settings":Pro:ShowActiveProcessInTitle' ~/Library/Preferences/com.apple.Terminal.plist
+- name: write Terminal defaults (plistbuddy)
+  shell: "/usr/libexec/PlistBuddy -c 'Set :{{ item.1.key }} {{ item.1.value }}' {{ item.0.domain }}"
+  with_subelements:
+    - "{{ terminal_defaults }}"
+    - settings
+
+- name: open settings file
+  shell: "open -a 'Terminal' '{{ playbook_dir }}/roles/apps/tasks/terminal/files/Pro.terminal'"

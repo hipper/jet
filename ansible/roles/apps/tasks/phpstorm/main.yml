@@ -1,0 +1,15 @@
+---
+- name: Include vars
+  include_vars: "{{ item }}"
+  with_items:
+    - phpstorm/vars/main.yml
+
+- name: Check theme path
+  file:
+    path: "{{ phpstorm_theme_dir }}"
+    state: directory
+
+- name: Copy theme files
+  copy:
+    src: "phpstorm/files/Monokai Storm9.icls"
+    dest: "{{ phpstorm_theme_dir }}/Monokai Storm9.icls"

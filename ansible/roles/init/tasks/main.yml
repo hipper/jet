@@ -1,0 +1,12 @@
+---
+## CHMOD bin file
+- name: CHMOD 755 /bin/jet
+  file:
+    path: "{{ home }}/.jet/bin/jet"
+    mode: 0755
+
+- name: symlink jet to /usr/local/bin
+  file:
+    src: "{{ home }}/.jet/bin/jet"
+    path: /usr/local/bin/jet 
+    state: link

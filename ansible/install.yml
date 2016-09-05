@@ -1,0 +1,20 @@
+---
+- hosts       : localhost
+  connection  : local
+
+  vars_files:
+    - vars/apps.yml
+    - vars/osx.yml
+
+  vars_prompt:
+    - name: "roles_to_run"
+      prompt: "Choose roles to play -- All(default), Apps, OSX Settings (a/p/o)"
+      private: no
+      default: "a"
+
+  roles:
+    - { role: apps, when: roles_to_run == 'a' or roles_to_run == 'p' }
+    - { role: osx, when: roles_to_run == 'a' or roles_to_run == 'o' }
+
+    # Restart services
+    - restart

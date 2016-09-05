@@ -1,0 +1,100 @@
+osx_settings:
+  ###############################################################################
+  # General                                                                     #
+  ###############################################################################
+  - domain: "NSGlobalDomain"
+    settings:
+      # System Preferences > General > Appearance
+      - { key: "AppleAquaColorVariant", type: "int", value: "1" }
+      # System Preferences > General > Sidebar Icon size
+      - { key: "NSTableViewDefaultSizeMode", type: "int", value: "1" }
+      # Set locale
+      - { key: "AppleLocale", type: "string", value: "en_UA@currency=USD" }
+
+  ###############################################################################
+  # Dock                                                                        #
+  ###############################################################################
+  - domain: "com.apple.dock"
+    settings:
+      # Size
+      - { key: "tilesize", type: "float", value: "24" }
+      # Magnification
+      - { key: "largesize", type: "float", value: "86" }
+      - { key: "magnification", type: "bool", value: "true" }
+      # Automatically hide and show the Dock
+      - { key: "autohide", type: "bool", value: "false" }
+      # Animate opening apps
+      - { key: "launchanim", type: "bool", value: "false" }
+      # Minimize windows into application
+      - { key: "minimize-to-application", type: "bool", value: "false"}
+      # Show indicators
+      - { key: "show-process-indicators", type: "bool", value: "true"}
+      # Don’t group windows by application in Mission Control
+      - { key: "expose-group-by-app", type: "bool", value: "false"}
+
+  ###############################################################################
+  # Sound                                                                       #
+  ###############################################################################
+  - domain: "com.apple.systemsound"
+    settings:
+      # Play user interface sound effects
+      - { key: "com.apple.sound.uiaudio.enabled", type: "int", value: "0" }
+
+  ###############################################################################
+  # .DS_Store files                                                             #
+  ###############################################################################
+  - domain: "com.apple.desktopservices"
+    settings:
+      # Avoid creating .DS_Store files on network volumes
+      - { key: "DSDontWriteNetworkStores", type: "bool", value: "true" }
+
+  ###############################################################################
+  # Menu                                                                        #
+  ###############################################################################
+  # Battery settings
+  - domain: "com.apple.menuextra.battery"
+    settings:
+      - { key: "ShowTime", type: "string", value: "NO" }
+      - { key: "ShowPercent", type: "string", value: "YES" }
+
+  # Clock settings
+  - domain: "com.apple.menuextra.clock"
+    settings:
+      - { key: "DateFormat", type: "string", value: "MMM d  HH:mm" }
+      - { key: "FlashDateSeparators", type: "bool", value: "false" }
+      - { key: "IsAnalog", type: "bool", value: "false" }
+
+##
+# TEMP solution for array_add
+# Some settings are only possible to add with shell command.
+# first array will clear items and add a new one
+# array-add will add item to array
+##
+osx_settings_shell:
+  - domain: "com.apple.dock.plist"
+    settings:
+      # Add new apps
+      - { key: "persistent-apps", type: "array", value: "<dict><key>tile-data</key><dict><key>file-data</key><dict><key>_CFURLString</key><string>/Applications/ForkLift.app</string><key>_CFURLStringType</key><integer>0</integer></dict></dict></dict>" }
+      - { key: "persistent-apps", type: "array-add", value: "<dict><key>tile-data</key><dict><key>file-data</key><dict><key>_CFURLString</key><string>/Applications/Sublime Text 2.app</string><key>_CFURLStringType</key><integer>0</integer></dict></dict></dict>" }
+      - { key: "persistent-apps", type: "array-add", value: "<dict><key>tile-data</key><dict><key>file-data</key><dict><key>_CFURLString</key><string>/Applications/Google Chrome.app</string><key>_CFURLStringType</key><integer>0</integer></dict></dict></dict>" }
+      - { key: "persistent-apps", type: "array-add", value: "<dict><key>tile-data</key><dict><key>file-data</key><dict><key>_CFURLString</key><string>/Applications/Firefox.app</string><key>_CFURLStringType</key><integer>0</integer></dict></dict></dict>" }
+      - { key: "persistent-apps", type: "array-add", value: "<dict><key>tile-data</key><dict><key>file-data</key><dict><key>_CFURLString</key><string>/Applications/Tower.app</string><key>_CFURLStringType</key><integer>0</integer></dict></dict></dict>" }
+      - { key: "persistent-apps", type: "array-add", value: "<dict><key>tile-data</key><dict><key>file-data</key><dict><key>_CFURLString</key><string>/Applications/Skype.app</string><key>_CFURLStringType</key><integer>0</integer></dict></dict></dict>" }
+      - { key: "persistent-apps", type: "array-add", value: "<dict><key>tile-data</key><dict><key>file-data</key><dict><key>_CFURLString</key><string>/Applications/Slack.app</string><key>_CFURLStringType</key><integer>0</integer></dict></dict></dict>" }
+      - { key: "persistent-apps", type: "array-add", value: "<dict><key>tile-data</key><dict><key>file-data</key><dict><key>_CFURLString</key><string>/Applications/Terminal.app</string><key>_CFURLStringType</key><integer>0</integer></dict></dict></dict>" }
+      - { key: "persistent-apps", type: "array-add", value: "<dict><key>tile-data</key><dict><key>file-data</key><dict><key>_CFURLString</key><string>/Applications/Sequel Pro.app</string><key>_CFURLStringType</key><integer>0</integer></dict></dict></dict>" }
+      - { key: "persistent-apps", type: "array-add", value: "<dict><key>tile-data</key><dict><key>file-data</key><dict><key>_CFURLString</key><string>/Applications/Dash.app</string><key>_CFURLStringType</key><integer>0</integer></dict></dict></dict>" }
+
+  # Top menu icons
+  - domain: "com.apple.systemuiserver"
+    settings:
+      # Add new apps
+      - { key: "menuExtras", type: "array", value: "/System/Library/CoreServices/Menu Extras/Battery.menu" }
+      - { key: "menuExtras", type: "array-add", value: "/System/Library/CoreServices/Menu Extras/Volume.menu" }
+      - { key: "menuExtras", type: "array-add", value: "/System/Library/CoreServices/Menu Extras/TextInput.menu" }
+      - { key: "menuExtras", type: "array-add", value: "/System/Library/CoreServices/Menu Extras/Clock.menu" }
+
+  # Set default editor (Sublime Text)
+  - domain: "com.apple.LaunchServices/com.apple.launchservices.secure"
+    settings:
+      - { key: "LSHandlers", type: "array-add", value: "{LSHandlerContentType=public.plain-text;LSHandlerRoleAll=com.sublimetext.2;}" }

@@ -1,0 +1,208 @@
+#!/bin/bash
+
+# Enables pattern lists like @(init|start|updatedb)
+# Credit: http://stackoverflow.com/a/13254908
+shopt -s extglob
+
+## Defaults
+CONST_APP_DIR="${HOME}/.jet"
+CONST_VALID_COMMANDS="@(init|install)"
+
+## Set colours
+CONST_COLOUR_ERROR=$(tput setaf 1)   # Red
+CONST_COLOUR_PASS=$(tput setaf 2)    # Green
+CONST_COLOUR_WARN=$(tput setaf 3)    # Yellow
+CONST_COLOUR_INFO=$(tput setaf 4)    # Blue
+CONST_BOLD=$(tput bold)              # Bold text
+CONST_RAINBOW_START=216              # Rainbow start color 146, 216
+CONST_COLOUR_RESET=$(tput sgr0)      # Reset
+
+## Set symbols
+CONST_SYMBOL_ERROR="x"
+CONST_SYMBOL_PASS="✓"
+CONST_SYMBOL_WARN="!"
+CONST_SYMBOL_INFO="*"
+
+## Main function
+main() {
+    ## Print logo
+    ##http://patorjk.com/software/taag/#p=display&h=2&v=0&c=echo&f=Slant&t=JET
+    echo
+    rainbow_logo "       ______________";
+    rainbow_logo "      / / ____/_  __/";
+    rainbow_logo " __  / / __/   / /   ";
+    rainbow_logo "/ /_/ / /___  / /    ";
+    rainbow_logo "\____/_____/ /_/  ==> osx";
+    echo
+
+    ## Proceed with commands
+    case "$1" in
+        $CONST_VALID_COMMANDS)
+            run_${1}
+            ;;
+        --help)
+            print_help
+        ;;
+      *)
+        print_help
+        ;;
+    esac
+}
+
+## INIT command
+run_init() {
+    print_status "INFO" "Running init command" "True"
+    #install_cli_tools
+    #install_homebrew
+    #install_git
+    #install_ansible
+    #install_jet
+    run_ansible_playbook_init
+    print_status "PASS" "Init task completed. You can run Install now." "True"
+    print_help
+}
+
+## INSTALL command
+run_install() {
+    print_status "INFO" "Running install command" "True"
+    run_ansible_playbook_install
+    print_status "PASS" "Install task completed" "True"
+    print_buybuy
+}
+
+## INIT Playbook
+run_ansible_playbook_init() {
+    print_status "INFO" "==> Running INIT ansible-playbook..."
+    ansible-playbook \
+      "${CONST_APP_DIR}/ansible/init.yml" \
+      -i "${CONST_APP_DIR}/ansible/inventory/hosts" 
+}
+
+## INSTALL Playbook
+run_ansible_playbook_install() {
+    print_status "INFO" "==> Running INSTALL ansible-playbook..."
+    ansible-playbook \
+      --ask-become-pass \
+      "${CONST_APP_DIR}/ansible/install.yml" \
+      -i "${CONST_APP_DIR}/ansible/inventory/hosts" \
+      --vault-password-file "${CONST_APP_DIR}/ansible/.vault_pass"
+}
+
+## Install CLI tools
+## Credit: https://github.com/boxen/boxen-web/blob/master/app/views/splash/script.sh.erb#L42-L63
+## https://github.com/boxcutter/macos/blob/master/script/xcode-cli-tools.sh
+install_cli_tools() {
+    if ! type_exists "gcc"; then
+        print_status "WARN" "Installing command-line tools"
+        PLACEHOLDER=/tmp/.com.apple.dt.CommandLineTools.installondemand.in-progress
+
+        # create the placeholder file that's checked by CLI updates' .dist code
+        # in Apple's SUS catalog
+        touch $PLACEHOLDER
+
+        # find the update with the right name, and grab its identifier
+        PROD=$(softwareupdate -l | \
+          grep -B 1 "Command Line Tools" | \
+          awk -F"*" '/^ +\*/ {print $2}' | \
+          sed 's/^ *//' | \
+          head -n 1)
+        
+        # install it
+        softwareupdate -i "${PROD}"
+
+        # remove the placeholder
+        [[ -f $PLACEHOLDER ]] && rm $PLACEHOLDER
+    fi
+    print_status "PASS" "Command Line Tools"
+}
+
+## Install Homebrew
+## https://github.com/mxcl/homebrew/wiki/installation
+install_homebrew() {
+    if ! type_exists "brew"; then
+        print_status "WARN" "Installing homebrew"
+        /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+    fi
+    print_status "PASS" "Homebrew"
+}
+
+## Install GIT using brew
+install_git() {
+    if ! type_exists "git"; then
+        print_status "WARN" "Installing GIT"
+        brew install git
+    fi
+    print_status "PASS" "Git client"
+}
+
+## Install Ansible
+install_ansible() {
+    if ! type_exists "ansible"; then
+        print_status "WARN" "Installing Ansible"
+        brew install ansible
+    fi
+    print_status "PASS" "Ansible"
+}
+
+## Install Jet
+install_jet() {
+    if [ ! -d "${CONST_APP_DIR}" ]; then
+        print_status "WARN" "Cloning Jet repository"
+        git clone --quiet https://github.com/hipper/jet.git $CONST_APP_DIR
+    fi
+    print_status "PASS" "Jet Installed"
+}
+
+## Utility function
+type_exists() {
+  if [ $(type -P $1) ]; then
+    return 0
+  fi
+  return 1
+}
+
+## LOGO Output
+rainbow_logo() {
+    printf "$(tput setaf ${CONST_RAINBOW_START})%s${CONST_COLOUR_RESET}\n" "${1}"
+    (( CONST_RAINBOW_START += 1 ))
+}
+
+## Output status messages [STATUS MESSAGE SEPARATOR]
+print_status() {
+    COLOUR="CONST_COLOUR_${1}"
+    SYMBOL="CONST_SYMBOL_${1}"
+
+    echo -e "${CONST_BOLD}${!COLOUR}${!SYMBOL} ${2}"
+
+    if [ -n "$3" ]; then
+        echo "--------------------------------------------------------"
+    fi
+
+    echo -e "${CONST_COLOUR_RESET}"
+}
+
+## Prints help message
+print_help() {
+    echo "Usage: jet [--help] <command>"
+    echo
+    echo "Available commands are:"
+    echo "    init      Initialise local environment"
+    echo "    install   Start installation process"
+    echo
+}
+
+## Prints goodbuy message
+print_buybuy() {
+    print_status "WARN" "Hasta la vista, baby!"
+}
+
+## Detect the platform via uname
+# http://stackoverflow.com/a/17072017
+# https://raw.githubusercontent.com/yellowducklabs/duckos/master/duck
+if [[ $(uname) != 'Darwin' ]]; then
+  print_status "ERROR" "Sorry, Could not detect the platform!"
+  exit 1
+fi
+
+# Bootstrap the script. Nothing much to do here.
+main "$@"

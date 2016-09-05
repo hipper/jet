@@ -1,0 +1,22 @@
+---
+- name: OS X Preferences
+  osx_defaults:
+    domain: "{{ item.0.domain }}"
+    key: "{{ item.1.key }}"
+    type: "{{ item.1.type }}"
+    value: "{{ item.1.value }}"
+  with_subelements:
+    - "{{ osx_settings }}"
+    - settings
+
+- name: OS X Preferences (Shell command)
+  shell: "defaults write {{ item.0.domain }} {{ item.1.key }} -{{ item.1.type }} '{{ item.1.value }}'"
+  with_subelements:
+    - "{{ osx_settings_shell }}"
+    - settings
+
+#- name: Print variables
+#  debug: msg="Domain {{ item.0.domain }}"
+#  with_subelements: 
+#    - "{{ osx_settings }}"
+#    - settings

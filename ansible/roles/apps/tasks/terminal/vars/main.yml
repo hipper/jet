@@ -1,0 +1,22 @@
+---
+terminal_defaults:
+  - domain: "{{ home }}/Library/Preferences/com.apple.Terminal.plist"
+    settings:
+      - { key: "AppleFontSmoothing", type: "integer", value: "1" }
+      # Pro theme
+      - { key: "\"Startup Window Settings\"", type: "string", value: "Pro" }
+      - { key: "\"Window Settings\":Pro:rowCount", type: "integer", value: "37" }
+      - { key: "\"Window Settings\":Pro:columnCount", type: "integer", value: "135" }
+      - { key: "\"Window Settings\":Pro:UseBoldFonts", type: "bool", value: "true" }
+      - { key: "\"Window Settings\":Pro:UseBrightBold", type: "bool", value: "false" }
+      - { key: "\"Window Settings\":Pro:ShowShellCommandInTitle", type: "bool", value: "false" }
+      - { key: "\"Window Settings\":Pro:ShowTTYNameInTitle", type: "bool", value: "false" }
+      - { key: "\"Window Settings\":Pro:ShowWindowSettingsNameInTitle", type: "bool", value: "false" }
+      - { key: "\"Window Settings\":Pro:ShowCommandKeyInTitle", type: "bool", value: "false" }
+      - { key: "\"Window Settings\":Pro:ShowActiveProcessInTitle", type: "bool", value: "true" }
+      - { key: "\"Window Settings\":Pro:FontAntialias", type: "bool", value: "true" }
+      - { key: "\"Window Settings\":Pro:FontHeightSpacing", type: "integer", value: "1" }
+      - { key: "\"Window Settings\":Pro:FontWidthSpacing", type: "integer", value: "1" }
+      - { key: "\"Window Settings\":Pro:Linewrap", type: "bool", value: "true" }
+      - { key: "\"Window Settings\":Pro:DisableANSIColor", type: "bool", value: "false" }
+      - { key: "\"Window Settings\":Pro:BlinkText", type: "bool", value: "true" }

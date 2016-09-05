@@ -1,0 +1,54 @@
+homebrew_taps:
+  - caskroom/cask
+
+# ansible and git formulas installed via jet bash
+homebrew_formulas:
+  - curl
+  - composer
+  - gettext
+  - mysql
+  - node
+  - openssl
+  - php-code-sniffer
+  - php56
+  - php56-xdebug
+  - tmux
+  - vim
+  - wget
+  - zlib
+
+homebrew_casks:
+  - adium
+  - aliwangwang
+  - beyond-compare
+  - boom
+  - dash
+  - firefox
+  - forklift
+  - google-chrome
+  - google-drive
+  - lastpass
+  - mplayerx
+  - nosleep
+  - postman
+  - progressive-downloader
+  - reggy
+  - sequel-pro
+  - sketch
+  - skitch
+  - skype
+  - slack
+  - steam
+  - sublime-text
+  - tower
+  - the-unarchiver
+  - transmission
+  - unrarx
+  - xee
+
+npm_packages:
+  - bower
+  - babel
+  - grunt
+  - grunt-cli
+  - gulp-cli

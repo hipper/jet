@@ -1,0 +1,8 @@
+---
+- name: Include licence
+  include_vars: tower/vars/license.yml
+
+- name: save licence file
+  copy:
+    content: "{{ tower_license }}"
+    dest: /tmp/license.tower-license

@@ -1,0 +1,21 @@
+---
+## Homebrew
+# - debug: var=homebrew_taps
+
+- name: Install homebrew taps
+  homebrew_tap:
+    name: "{{ item }}"
+    state: present
+  with_items: "{{ homebrew_taps }}"
+
+- name: Install homebrew formulas
+  homebrew:
+    name: "{{ item }}"
+    state: present
+  with_items: "{{ homebrew_formulas }}"
+
+- name: Install Homebrew casks
+  homebrew_cask:
+    name: "{{ item }}"
+    state: present
+  with_items: "{{ homebrew_casks }}"

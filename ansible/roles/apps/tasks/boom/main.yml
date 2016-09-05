@@ -1,0 +1,11 @@
+---
+- name: Include licence
+  include_vars: boom/vars/license.yml
+
+- name: save licence file
+  copy:
+    content: "{{ boom_license }}"
+    dest: /tmp/license.boom-license
+
+- name: open app
+  shell: "open -a 'Boom 2' && sleep 2 && killall 'Boom 2'"

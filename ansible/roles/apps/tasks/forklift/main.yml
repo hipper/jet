@@ -1,0 +1,11 @@
+---
+- name: Include licence
+  include_vars: forklift/vars/license.yml
+
+- name: save licence file
+  copy:
+    content: "{{ forklift_license }}"
+    dest: /tmp/license.forklift-license
+
+- name: open app
+  shell: "open -a 'ForkLift'"

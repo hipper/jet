@@ -1,0 +1,14 @@
+---
+- name: Symlink dotfiles
+  file:
+    src: "{{ home }}/.jet/dotfiles/{{ item }}"
+    dest: "{{ home }}/{{ item }}"
+    state: link
+    force: yes
+  with_lines:
+    - cd {{ home }}/.jet/dotfiles && find . -type f -name ".*"
+
+#- name: debug
+#  debug: msg="file is {{ item }}"
+#  with_fileglob:
+#    - "{{ home }}/.jet/dotfiles/fonts/*"

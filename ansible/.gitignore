@@ -1,0 +1,5 @@
+dea/
+*.swp
+*.swo
+*.retry
+.vault_pass
