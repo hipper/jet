@@ -1,5 +1,5 @@
 # Jet for OSX
-<img src="https://cdn.rawgit.com/hipper/jet/master/logo.png" alt="Jet for osx" width="35%" />
+<img src="https://cdn.rawgit.com/hipper/jet/master/logo.png" alt="Jet for osx" width="124px" />
 
 Simple app to automate Mac configuration/app installation via Ansible.
 
