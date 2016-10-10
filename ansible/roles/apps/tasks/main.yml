@@ -22,6 +22,9 @@
 - name: Terminal
   include: terminal/main.yml
 
+- name: Atom
+  include: atom/main.yml
+
 - name: Sublime Text 2
   include: sublime-text2/main.yml
 

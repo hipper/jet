@@ -1,0 +1,66 @@
+---
+# Thanks: https://github.com/d3v1an7/fresh/blob/master/ansible/roles/config/install/tasks/atom/main.yml
+- name: check if atom theme exists
+  stat:
+    path: "{{ home }}/.atom/packages/base16-eighties-one-dark"
+  register: atom_theme
+
+- name: download atom theme
+  get_url:
+    url: https://github.com/hipper/base16-eighties-one-dark/archive/master.zip
+    dest: /tmp/base16-eighties-one-dark-master.zip
+  when: atom_theme.stat.exists == false
+
+- name: unzip atom theme
+  shell: unzip -o /tmp/base16-eighties-one-dark-master.zip -d /tmp
+  args:
+    creates: /tmp/base16-eighties-one-dark-master
+  when: atom_theme.stat.exists == false
+
+- name: copy theme to atom
+  become: yes
+  synchronize:
+    src: /tmp/base16-eighties-one-dark-master/
+    dest: "{{ home }}/.atom/packages/base16-eighties-one-dark/"
+  when: atom_theme.stat.exists == false
+
+- name: overwite atom config
+  copy:
+    content: |
+      "*":
+        welcome:
+          showOnStartup: false
+        editor:
+          tabLength: 4
+          invisibles:
+            cr: false
+            eol: false
+          fontFamily: "Consolas"
+          fontSize: 13
+          lineHeight: 1.7
+          softWrap: true
+          showInvisibles: true
+          tabType: "soft"
+        core:
+          audioBeep: false
+          automaticallyUpdate: false
+          disabledPackages: [
+            "wrap-guide"
+            "archive-view"
+            "background-tips"
+            "bookmarks"
+            "language-c"
+            "language-clojure"
+            "language-coffee-script"
+            "language-csharp"
+            "language-objective-c"
+            "language-perl"
+            "language-toml"
+            "metrics"
+            "welcome"
+          ]
+          themes: [
+            "one-dark-ui"
+            "base16-eighties-one-dark"
+          ]
+    dest: "~/.atom/config.cson"
