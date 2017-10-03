@@ -7,6 +7,9 @@ It installs and configures most of the software I use. I still have some manual 
 
 ## Installation
 
+1. Make sure Ansible 2.1.0.0 installed (if not, run pip install ansible==1.9.4)
+2. Create ansible/.vault_pass file (D56)
+3. Kick init command
 ```
 $ curl --progress-bar https://raw.githubusercontent.com/hipper/jet/master/bin/jet | bash -s init
 ```
